@@ -1,7 +1,8 @@
 import test = require('tape-async');
 import nock = require('nock');
-import { transactionMonitor } from '../../../lib/health-checkers';
-import { url } from '../../../lib/health-checkers/transaction-monitor';
+import transactionMonitor, {
+  url,
+} from '../../../lib/health-checkers/transaction-monitor';
 
 test('It returns true when the service responds with 200', async assert => {
   nock(url)
