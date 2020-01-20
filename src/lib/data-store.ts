@@ -11,4 +11,11 @@ export class DataStore {
     const key = Math.floor(Number(timestamp) / 1000);
     this.data[key] = statusReport;
   }
+
+  getLatest(): ServiceStatusReport {
+    const latestKey = Object.keys(this.data).sort(
+      (a, b) => Number(b) - Number(a),
+    )[0];
+    return this.data[latestKey];
+  }
 }

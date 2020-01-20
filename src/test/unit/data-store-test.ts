@@ -10,3 +10,15 @@ test('It uses the unix timestamp as key', async assert => {
   console.log(Object.keys(dataStore.data));
   assert.deepEqual(Object.keys(dataStore.data), ['1000000001']);
 });
+
+test('Getting the latest report', async assert => {
+  const dataStore = new DataStore();
+  const oldReport = ({ foo: 'bar' } as any) as ServiceStatusReport;
+  const newReport = ({ foo: 'bar' } as any) as ServiceStatusReport;
+  dataStore.push(new Date('2010-01-01 00:00'), oldReport);
+  dataStore.push(new Date('2020-01-01 00:00'), newReport);
+
+  const actual = dataStore.getLatest();
+
+  assert.deepEqual(actual, newReport);
+});
