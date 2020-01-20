@@ -7,7 +7,7 @@
     "test": "tape 'dist/test/!(smoke)/**/*.js' | tap-nirvana",
     "clean": "rm -rf dist",
     "build": "npm run lint && tsc",
-    "start": "npm run build && node dist/index.js",
+    "start": "npm run build && node dist/lib/index.js",
     "lint": "tsc --noEmit && eslint '*/**/*.ts' --quiet --fix"
   },
   "author": "",
