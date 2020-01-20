@@ -5,4 +5,3 @@ RUN npm install
 ADD .eslintrc.js .prettierrc.js tsconfig.json ./
 ADD src ./src
 RUN npm run build
-RUN node ./dist/index.js
