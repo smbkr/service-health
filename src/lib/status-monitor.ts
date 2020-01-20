@@ -34,7 +34,6 @@ export class StatusMonitor {
       return total;
     }, 0);
 
-    console.log({ allReports }, { timesUp });
     return timesUp / allReports.length;
   }
 
