@@ -20,4 +20,8 @@ export class DataStore {
   get(key: string): ServiceStatusReport {
     return this.data[key];
   }
+
+  getAll(): { [key: string]: ServiceStatusReport } {
+    return this.data;
+  }
 }

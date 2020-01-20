@@ -21,6 +21,27 @@ paths:
                     description: The UNIX timestamp the report was made
                   status:
                     $ref: '#/components/schemas/StatusReport'
+  /{serviceName}/availability:
+    get:
+      summary: Get availability percentage for a given service
+      parameters:
+        - name: serviceName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+       '200':
+        description: Availability for the service
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                availability:
+                  type: number
+                  example: 0.5
+                  description: How available the service was
 components:
   schemas:
     StatusReport:

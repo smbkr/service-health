@@ -25,6 +25,19 @@ export class StatusMonitor {
     };
   }
 
+  getAvailability(serviceName: string): number {
+    const allReports = Object.values(this.dataStore.getAll());
+    const timesUp = allReports.reduce((total, currentReport) => {
+      if (currentReport[serviceName] === true) {
+        total++;
+      }
+      return total;
+    }, 0);
+
+    console.log({ allReports }, { timesUp });
+    return timesUp / allReports.length;
+  }
+
   private sleep(time: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, time));
   }
