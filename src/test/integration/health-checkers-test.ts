@@ -3,7 +3,7 @@ import checkSystemStatus from '../../lib/health-checkers';
 
 test('It checks status for all the systems', async assert => {
   const actual = await checkSystemStatus();
-  assert.equal(Object.keys(actual), [
+  assert.deepEqual(Object.keys(actual), [
     'emailService',
     'microserviceController',
     'paymentGateway',

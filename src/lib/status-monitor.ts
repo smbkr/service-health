@@ -1,23 +1,18 @@
-import getSystemStatus, { ServiceStatusReport } from './health-checkers';
+import getSystemStatus from './health-checkers';
+import { DataStore } from './data-store';
 
 function sleep(time: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, time));
 }
 
 export default async function getAndLogStatus(
-  dataStore,
+  dataStore: DataStore,
   waitTime: number,
-  loopCondition = (): boolean => true,
 ): Promise<void> {
-  function logStatusReport(timestamp: Date, report: ServiceStatusReport): void {
-    const key = Math.floor(Number(timestamp) / 1000);
-    dataStore[key] = report;
-  }
-
-  while (loopCondition()) {
+  while (true) {
     const now = new Date();
     const serviceStatus = await getSystemStatus();
-    logStatusReport(now, serviceStatus);
+    dataStore.push(now, serviceStatus);
     await sleep(waitTime);
   }
 }
