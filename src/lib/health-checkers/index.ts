@@ -18,8 +18,6 @@ export default async function getSystemStatus(): Promise<ServiceStatusReport> {
     transactionMonitor(),
   ]);
 
-  // TODO: Store this data somewhere.
-
   return {
     emailService: status[0],
     microserviceController: status[1],
