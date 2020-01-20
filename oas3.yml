@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: Status Monitor API
+  description: This API checks the status of several other services, and keeps a recod of their status.
+  version: 1.0.0
+paths:
+  /:
+    get:
+      summary: Returns the latest status report.
+      responses:
+        '200':
+          description: The status report
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  timestamp:
+                    type: number
+                    example: 1579553951
+                    description: The UNIX timestamp the report was made
+                  status:
+                    $ref: '#/components/schemas/StatusReport'
+components:
+  schemas:
+    StatusReport:
+      type: object
+      properties:
+        emailService:
+          type: boolean
+          description: Whether or not the Email Service is up
+        microserviceController:
+          type: boolean
+          description: Whether or not the Microservice Controller is up
+        paymentGateway:
+          type: boolean
+          description: Whether or not the Payment Gateway is up
+        transactionMonitor:
+          type: boolean
+          description: Whether or not the Transaction Monitor is up
