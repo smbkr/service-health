@@ -1,4 +1,4 @@
-import getSystemStatus from './health-checkers';
+import getSystemStatus, { ServiceStatusReport } from './health-checkers';
 import { DataStore } from './data-store';
 
 export class StatusMonitor {
@@ -13,7 +13,24 @@ export class StatusMonitor {
     }
   }
 
+  getLatest(): ServiceReportWithTimestamp {
+    const latestKey = this.dataStore
+      .keys()
+      .sort((a, b) => Number(b) - Number(a))[0];
+    const data = this.dataStore.get(latestKey);
+
+    return {
+      timestamp: Number(latestKey),
+      status: data,
+    };
+  }
+
   private sleep(time: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, time));
   }
+}
+
+interface ServiceReportWithTimestamp {
+  timestamp: number;
+  status: ServiceStatusReport;
 }

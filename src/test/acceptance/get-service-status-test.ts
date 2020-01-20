@@ -3,14 +3,22 @@ import supertest from 'supertest';
 import { DataStore } from '../../lib/data-store';
 import { ServiceStatusReport } from '../../lib/health-checkers';
 import getApp from '../../lib/app';
+import { StatusMonitor } from '../../lib/status-monitor';
+import { dateToUnix } from '../../lib/util';
 
 test('It returns the latest from the data store', async assert => {
   const dataStore = new DataStore();
   const report = ({ foo: 'bar' } as any) as ServiceStatusReport;
-  dataStore.push(new Date(), report);
-  const app = getApp(dataStore);
+  const now = new Date();
+  dataStore.push(now, report);
+  const statusMonitor = new StatusMonitor(dataStore, 1000);
+  const app = getApp(statusMonitor);
   const request = supertest(app.callback());
 
   const response = await request.get('/').expect(200);
-  assert.deepEqual(response.body, { foo: 'bar' });
+  const expectedBody = {
+    timestamp: dateToUnix(now),
+    status: report,
+  };
+  assert.deepEqual(response.body, expectedBody);
 });

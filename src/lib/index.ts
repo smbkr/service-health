@@ -4,8 +4,8 @@ import { DataStore } from './data-store';
 import config from './config';
 
 const dataStore = new DataStore();
-const app = getApp(dataStore);
 const statusMonitor = new StatusMonitor(dataStore, config.waitTime);
+const app = getApp(statusMonitor);
 
 statusMonitor.monitor();
 app.listen(config.port);

@@ -1,4 +1,5 @@
 import { ServiceStatusReport } from './health-checkers';
+import { dateToUnix } from './util';
 
 export class DataStore {
   public data: {};
@@ -8,14 +9,15 @@ export class DataStore {
   }
 
   push(timestamp: Date, statusReport: ServiceStatusReport): void {
-    const key = Math.floor(Number(timestamp) / 1000);
+    const key = dateToUnix(timestamp);
     this.data[key] = statusReport;
   }
 
-  getLatest(): ServiceStatusReport {
-    const latestKey = Object.keys(this.data).sort(
-      (a, b) => Number(b) - Number(a),
-    )[0];
-    return this.data[latestKey];
+  keys(): string[] {
+    return Object.keys(this.data);
+  }
+
+  get(key: string): ServiceStatusReport {
+    return this.data[key];
   }
 }
